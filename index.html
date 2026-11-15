@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#10243a">
+  <meta name="description" content="AMANA - منصة تربط من يحتاج المساعدة بمن يقدم الخدمات">
+  <title>AMANA | الأمانة تبدأ بالمساعدة</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <link rel="icon" type="image/png" href="amana_heart_original.png">
+</head>
+<body>
+  <div class="ambient ambient-one"></div><div class="ambient ambient-two"></div>
+  <header class="topbar">
+<a class="brand" href="#" id="brandHome"><img class="brand-logo" src="amana_heart_original.png" alt="AMANA"><span class="brand-word">AMANA<small>Ensemble, on s'entraide</small></span></a>
+<nav class="desktop-nav"><a class="nav-home" href="#">⌂ <span>الرئيسية</span></a><a href="#services">▦ <span data-i18n="navExplore">الخدمات</span></a><a href="#cta">✚ <span data-i18n="offerService">نشر خدمة</span></a><a href="#searchPanel">♦ <span>الخريطة</span></a><a href="#footer">☎ <span>اتصل بنا</span></a></nav>
+<div class="top-actions"><select id="languageSelect" aria-label="Language"><option value="ar">🌐 العربية</option><option value="fr">🇫🇷 Français</option><option value="en">🇬🇧 English</option></select><button class="icon-button" id="refreshBtn" title="تحديث">↻</button><button class="button button-outline button-small" id="myServicesBtn" data-i18n="myServices">خدماتي</button><button class="button button-primary button-small" id="headerOffer" data-i18n="offerService">قدّم خدمة</button></div></header>
+
+  <main>
+    <section class="hero"><div class="hero-inner"><div class="hero-copy">
+<div class="hero-brand-title">AMANA</div><h1 data-i18n="heroTitle">منصة الخدمات المتكاملة</h1><p data-i18n="heroText">ابحث عن المساعدة أو قدّم خدماتك بسهولة وأمان</p>
+<div class="quick-search hero-search" id="searchPanel"><div class="search-box"><span class="search-icon">⌕</span><input id="searchInput" type="search" placeholder="ابحث عن خدمة..." data-i18n-placeholder="searchPlaceholder"><input id="searchCity" list="cityOptions" type="text" autocomplete="address-level2" placeholder="كل المدن" data-i18n-placeholder="searchCityPlaceholder"><datalist id="cityOptions"></datalist><button id="searchBtn" class="button button-primary" data-i18n="searchButton">ابحث الآن</button></div>
+<div class="search-hints"><span data-i18n="popularSearches">عمليات بحث شائعة:</span><button class="hint" data-query="دروس">دروس</button><button class="hint" data-query="تصميم">تصميم</button><button class="hint" data-query="إصلاح">إصلاح</button><button class="hint" data-query="نقل">نقل</button></div></div>
+<div class="hero-buttons"><button class="button button-search" id="heroSearch"><span>⌕</span><span data-i18n="findHelp">البحث عن مساعدة</span></button><button class="button button-offer" id="heroOffer"><span>＋</span><span data-i18n="offerService">تقديم خدمة</span></button></div></div><div class="hero-slogan">معاً... نبني مجتمعاً أفضل</div></div></section>
+<section class="benefits-strip"><div><span>🎧</span><strong>دعم دائم</strong><small>للمساعدة في أي وقت</small></div><div><span>🛡️</span><strong>آمن وموثوق</strong><small>بياناتك في أمان</small></div><div><span>👥</span><strong>مجتمع متعاون</strong><small>معاً نحقق المزيد</small></div><div><span>⚡</span><strong>سريع وسهل</strong><small>استخدم المنصة بكل سهولة</small></div></section>
+
+    <section class="services-section" id="services">
+      <div class="section-heading"><div><div class="section-kicker" data-i18n="servicesKicker">مجتمع AMANA</div><h2 data-i18n="servicesTitle">خدمات قد تهمك</h2><p data-i18n="servicesSubtitle">اكتشف ما يقدمه الأشخاص من حولك.</p></div><button class="text-button" id="viewAll" data-i18n="viewAll">عرض الكل <span>←</span></button></div>
+      <div class="filters">
+        <select id="categoryFilter"><option value="" data-i18n="allCategories">كل الفئات</option><option value="education">التعليم</option><option value="design">التصميم</option><option value="technology">التكنولوجيا</option><option value="home">المنزل والصيانة</option><option value="transport">النقل</option><option value="beauty">الجمال والعناية</option><option value="other">أخرى</option></select>
+        <select id="sortFilter"><option value="newest" data-i18n="sortNewest">الأحدث أولاً</option><option value="price-low" data-i18n="sortPriceLow">السعر: الأقل</option><option value="price-high" data-i18n="sortPriceHigh">السعر: الأعلى</option></select>
+        <span class="results-count" id="resultsCount"></span>
+      </div>
+      <div class="services-grid" id="servicesGrid"><div class="loading-state"><span class="loader"></span><p data-i18n="loading">جارٍ تحميل الخدمات...</p></div></div>
+      <div class="empty-state hidden" id="emptyState"><div>◌</div><h3 data-i18n="emptyTitle">لا توجد خدمات مطابقة حالياً</h3><p data-i18n="emptyText">جرّب تغيير كلمات البحث أو الفئة.</p><button class="button button-outline" id="clearFilters" data-i18n="clearFilters">إزالة الفلاتر</button></div>
+    </section>
+
+    <section class="how-section" id="how"><div class="section-kicker" data-i18n="howKicker">بكل بساطة</div><h2 data-i18n="howTitle">ثلاث خطوات، وتبدأ الحكاية</h2><div class="steps-grid">
+      <article class="step-card"><span class="step-number">01</span><div class="step-icon">⌕</div><h3 data-i18n="step1Title">ابحث أو اعرض مهارتك</h3><p data-i18n="step1Text">حدد ما تحتاج إليه أو شارك الخدمة التي تستطيع تقديمها.</p></article>
+      <article class="step-card"><span class="step-number">02</span><div class="step-icon">◇</div><h3 data-i18n="step2Title">تواصل بوضوح</h3><p data-i18n="step2Text">اطّلع على تفاصيل الخدمة وتواصل مباشرة مع مقدمها.</p></article>
+      <article class="step-card"><span class="step-number">03</span><div class="step-icon">♡</div><h3 data-i18n="step3Title">قيّم تجربتك</h3><p data-i18n="step3Text">شارك رأيك وساعد الآخرين على اتخاذ قرار أفضل.</p></article>
+    </div></section>
+    <section class="cta-banner" id="cta"><div><div class="section-kicker light" data-i18n="ctaKicker">لديك مهارة؟</div><h2 data-i18n="ctaTitle">قد تكون مساعدتك هي ما يبحث عنه شخص آخر.</h2><p data-i18n="ctaText">انشر خدمتك وامنح مهارتك فرصة للوصول إلى أشخاص يحتاجون إليها.</p></div><button class="button button-light" id="ctaOffer" data-i18n="offerNow">اعرض خدمتك الآن <span>←</span></button><div class="cta-orb"></div></section>
+  </main>
+
+  <footer id="footer"><a class="brand footer-brand" href="#"><img class="brand-logo" src="amana_heart_original.png" alt="AMANA"><span class="brand-word">AMANA<small>Ensemble, on s'entraide</small></span></a><p data-i18n="footerText">المساعدة تبدأ بخطوة، والثقة تبني مجتمعاً.</p><span>© 2026 AMANA</span></footer>
+
+  <!-- Welcome -->
+  <div class="modal-backdrop" id="welcomeModal"><div class="modal welcome-modal"><button class="modal-close" id="closeWelcome" aria-label="إغلاق">×</button><div class="welcome-symbol">A<span>✦</span></div><div class="section-kicker" data-i18n="welcomeKicker">مرحباً بك في AMANA</div><h2 data-i18n="welcomeTitle">هنا تبدأ المساعدة المتبادلة.</h2><p data-i18n="welcomeText">AMANA منصة تجمع بين من يبحث عن المساعدة ومن يملك مهارة أو خدمة يقدمها. يمكنك البحث عن الخدمات أو نشر خدمتك بسهولة.</p><div class="welcome-choices"><div><b>⌕</b><span data-i18n="welcomeSearch">ابحث عن خدمة تناسب احتياجك</span></div><div><b>＋</b><span data-i18n="welcomeOffer">شارك مهارتك وقدّم خدمة للآخرين</span></div></div><button class="button button-primary full-width" id="startUsing" data-i18n="startNow">ابدأ استخدام AMANA <span>←</span></button><small class="modal-footnote" data-i18n="welcomeFoot">باستخدامك للمنصة، احرص على التعامل بحذر والتحقق من تفاصيل الخدمة.</small></div></div>
+
+  <!-- Offer service -->
+  <div class="modal-backdrop hidden" id="offerModal"><div class="modal form-modal"><button class="modal-close" data-close="offerModal">×</button><div class="section-kicker" data-i18n="offerKicker">شارك مهارتك</div><h2 data-i18n="offerTitle">أضف خدمة جديدة</h2><p class="modal-intro" data-i18n="offerIntro">املأ التفاصيل التالية لتظهر خدمتك للباحثين عنها.</p>
+    <form id="offerForm">
+      <label data-i18n="serviceTitleLabel">عنوان الخدمة *</label><input name="title" required maxlength="90" placeholder="مثال: دروس دعم في الرياضيات">
+      <label data-i18n="descriptionLabel">وصف الخدمة *</label><textarea name="description" required maxlength="1500" rows="3" placeholder="اشرح ما تقدمه بالتفصيل..."></textarea>
+      <div class="form-row"><div><label data-i18n="categoryLabel">الفئة *</label><select name="category" required><option value="education">التعليم</option><option value="design">التصميم</option><option value="technology">التكنولوجيا</option><option value="home">المنزل والصيانة</option><option value="transport">النقل</option><option value="beauty">الجمال والعناية</option><option value="other">أخرى</option></select></div><div><label data-i18n="priceLabel">السعر بالدولار (USD) *</label><input name="price" type="number" min="0" step="0.01" required placeholder="مثال: 15"></div></div>
+      <label data-i18n="photoLabel">صورة الخدمة أو صورتك *</label><input name="photo" type="file" accept="image/jpeg,image/png,image/webp" required>
+      <div class="form-row"><div><label data-i18n="phoneLabel">رقم الهاتف *</label><input name="phone" type="tel" required placeholder="+212..."></div><div><label data-i18n="emailLabel">البريد الإلكتروني *</label><input name="email" type="email" required placeholder="name@email.com"></div></div>
+      <label data-i18n="cityLabel">المدينة *</label><input name="city" required placeholder="مثال: الرباط">
+      <div class="location-box"><div><b data-i18n="locationTitle">موقعك على الخريطة</b><small data-i18n="locationText">يمكنك مشاركة موقعك الدقيق اختيارياً حتى يسهل على العملاء الوصول إليك.</small></div><button type="button" class="button button-outline button-small" id="locationBtn" data-i18n="getLocation">تحديد موقعي</button></div><div id="locationStatus" class="location-status"></div>
+      <label class="consent"><input type="checkbox" name="publishLocation"><span data-i18n="publishLocation">أوافق على إظهار موقعي الدقيق للزوار على الخريطة.</span></label>
+      <label class="consent"><input type="checkbox" name="publishContact" checked><span data-i18n="publishContact">أوافق على إظهار رقم هاتفي وبريدي الإلكتروني للزوار.</span></label>
+      <label data-i18n="languageLabel">لغة وصف الخدمة</label><select name="language"><option value="ar">العربية</option><option value="fr">Français</option><option value="en">English</option></select>
+      <button class="button button-primary full-width submit-button" type="submit" data-i18n="publishButton">انشر الخدمة الآن <span>←</span></button><p class="form-message" id="offerMessage"></p>
+    </form>
+  </div></div>
+
+  <!-- My services -->
+  <div class="modal-backdrop hidden" id="myServicesModal"><div class="modal my-services-modal"><button class="modal-close" data-close="myServicesModal">×</button><div class="section-kicker" data-i18n="myServices">خدماتي</div><h2 data-i18n="myServicesTitle">الخدمات التي نشرتها</h2><p class="modal-intro" data-i18n="myServicesIntro">يمكنك إدارة الخدمات المنشورة من هذا الجهاز.</p><div id="myServicesList" class="my-services-list"></div></div></div>
+
+  <!-- Detail -->
+  <div class="modal-backdrop hidden" id="detailModal"><div class="modal detail-modal"><button class="modal-close" data-close="detailModal">×</button><div id="detailContent"></div></div></div>
+  <div class="toast" id="toast"></div>
+  <script src="config.js"></script><script src="script.js"></script>
+</body>
+</html>
